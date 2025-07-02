@@ -25,7 +25,7 @@ def mask_account_card(card_info: str) -> str:
             return f"{card_type} {numb_type[:4] + " " + numb_type[4:6] + "**" + " **** " + numb_type[-4:]}"
 
 print(mask_account_card("Счет 35383033474447895560"))
-print(mask_account_card("Maestro 1596837868705199"))
+print(mask_account_card("Visa Platinum 8990922113665229"))
 
 
 def get_date(date_str: str) -> str:
