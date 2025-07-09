@@ -1,6 +1,6 @@
 import pytest
 
-from src.masks import get_mask_account
+from src.masks import get_mask_card_number, get_mask_account
 
 
 @pytest.mark.parametrize('value, expected', [
@@ -11,3 +11,15 @@ from src.masks import get_mask_account
 ])
 def test_get_mask_account(value, expected):
     assert get_mask_account(value) == expected
+
+
+
+@pytest.mark.parametrize('value, expected', [
+    ('1596837868705199', '1596 83** **** 5199'),
+    ('1596837868705', 'Недопустимая длина счета'),
+    ('15968378 68705199', 'Счет содержит недопустимые символы'),
+    ('1596837868705yrt', 'Счет содержит недопустимые символы'),
+
+])
+def test_get_mask_card_number(value, expected):
+    assert get_mask_card_number(value) == expected
