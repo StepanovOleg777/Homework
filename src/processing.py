@@ -1,8 +1,8 @@
-def filter_by_state(list_of_dict: list, state="EXECUTED") -> list:
+def filter_by_state(list_dictionary: list, state="EXECUTED") -> list:
     """Функция фильтрует значение словарей по ключу"""
 
     filtered_list = []
-    for dict_item in list_of_dict:
+    for dict_item in list_dictionary:
         if dict_item.get("state") == state:
             filtered_list.append(dict_item)
         else:

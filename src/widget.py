@@ -12,7 +12,6 @@ def mask_account_card(card_info: str) -> str:
     card_type = " ".join(card_type_list)
 
     #Получаем замаскированый номер карты
-    # card_number = int(card_info_list[-1])
     for i in card_info_list:
         if i.isdigit():
             card_numb_list.append(i)
