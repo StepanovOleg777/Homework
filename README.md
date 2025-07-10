@@ -15,3 +15,9 @@ git clone https://github.com/StepanovOleg777/Homework.git
 ```
 pip install -r requirements.txt
 ```
+## Тестирование:
+
+ Проект покрыт тестами Pytest. Для запуска выполните команду:
+ ```
+Pytest
+```
