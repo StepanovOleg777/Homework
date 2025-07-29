@@ -74,7 +74,7 @@ def transaction_descriptions(transactions: list[dict]):
 gen = transaction_descriptions(transactions)
 
 print(next(gen))
-
+print(next(gen))
 
 def card_number_generator(start=1, stop=9999999999999999):
     """Функция генерирует номер карты"""
