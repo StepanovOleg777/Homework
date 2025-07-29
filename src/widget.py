@@ -12,7 +12,6 @@ def mask_account_card(card_info: str) -> str:
     card_type = " ".join(card_type_list)
 
     #Получаем замаскированый номер карты
-    # card_number = int(card_info_list[-1])
     for i in card_info_list:
         if i.isdigit():
             card_numb_list.append(i)
@@ -35,3 +34,4 @@ def get_date(date_str: str) -> str:
     date_list_reverse = ".".join(date_list[::-1])
     return date_list_reverse
 
+print(get_date("2024-03-11T02:26:18.671407"))
