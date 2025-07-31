@@ -30,8 +30,8 @@ def test_log():
         div_zero(2, 0)
 
 
-def test_decorator_cupsys(capsys):
-    """Тестирование декоратора с выходом ошибки с фикстурой cupsys"""
+def test_decorator_capsys(capsys):
+    """Тестирование декоратора с выходом ошибки с фикстурой capsys"""
     with pytest.raises(Exception):
         my_func = my_function()
         captured = my_func.readouterr()
