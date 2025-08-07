@@ -1,39 +1,48 @@
 import time
-from functools import wraps
 
 
 def log(filename=None):
-    def decorator(func):
-        @wraps(func)
+    """Декоратор логирует данные"""
+
+    def my_decorator(func):
         def wrapper(*args, **kwargs):
             try:
                 time_1 = time.time()
-                time_2 = time.time()
                 result = func(*args, **kwargs)
+                time_2 = time.time()
+                name_func = func.__name__
+                if filename:
+                    with open(filename, "a", encoding="utf-8") as file:
+                        file.write(
+                            f"Начало: {time_1} \nФункция {name_func} ок. Результат: {result}\nКонец: {time_2}\n\n"
+                        )
+                        file.close()
+                else:
+                    print(f"Начало: {time_1} \nФункция {name_func} ок. Результат: {result}\nКонец: {time_2}")
+            except Exception as e:
                 name_func = func.__name__
                 if filename:
                     file = open(filename, "a", encoding="utf-8")
-                    file.write(f"Начало: {time_1}" + "\n")
-                    file.write(f"Функция {name_func} ок. Результат: {result}" + "\n")
-                    file.write(f"Конец: {time_2}" + "\n")
-                    file.write("\n")
+                    file.write(f"{name_func} error: {e}. Inputs: {args}, {kwargs}")
                     file.close()
+                    return f"{name_func} error: {e}. Inputs: {args}, {kwargs}"
                 else:
-                    print(f"Начало: {time_1}")
-                    print(f"{name_func} ok. Результат: {func(*args, **kwargs)}")
-                    print(f"Конец: {time_2}")
-            except Exception as e:
-                result = None
-                print(f"Начало: {time_1}")
-                print(f"{func.__name__} error: {e}. Inputs: {args}, {kwargs}")
-                print(f"Конец: {time_2}")
-            except ZeroDivisionError:
-                result = None
-                print(f"Начало: {time_1}")
-                print(f"{func.__name__} error: ZeroDivisionError. Inputs: {args}, {kwargs}")
-                print(f"Конец: {time_2}")
-            return result
+                    print(f"{name_func} error: {e}. Inputs: {args}, {kwargs}")
 
         return wrapper
 
-    return decorator
+    return my_decorator
+
+
+# @log(filename="mylog.txt")
+@log()
+def my_function(x, y):
+    return x + y
+
+
+@log()
+def second_fun(x, y):
+    return x / y
+
+
+second_fun(5, 1)
