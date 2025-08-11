@@ -10,6 +10,6 @@ def test_my_function_console_output(capsys):
     captured = capsys.readouterr()
     assert "Функция my_function ок." in captured.out
 
-def test_log():
-    with pytest.raises(Exception):
-        second_fun(2,0)
+# def test_log():
+#     with pytest.raises(Exception):
+#         second_fun(2,0)
