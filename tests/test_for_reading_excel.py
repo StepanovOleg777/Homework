@@ -1,10 +1,10 @@
 from unittest.mock import patch
-from src.reading_csv import read_csv_file
+from src.reading_excel import read_excel_file
 from typing import Any
 
 
-@patch("pandas.read_csv")
-def test_read_csv_file(mock_read_csv_file: Any) -> None:
+@patch("pandas.read_excel")
+def test_read_excel_file(mock_read_excel_file: Any) -> None:
     operations = [
         {
             "id": 4699552,
@@ -18,6 +18,6 @@ def test_read_csv_file(mock_read_csv_file: Any) -> None:
             "description": "Перевод с карты на карту",
         }
     ]
-    mock_read_csv_file.return_value.to_dict.return_value = operations
-    data_from_csv = operations
-    assert data_from_csv
+    mock_read_excel_file.return_value.to_dict.return_value = operations
+    data_from_excel = operations
+    assert data_from_excel
