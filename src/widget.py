@@ -23,8 +23,7 @@ def mask_account_card(card_info: str) -> str:
         elif 'Счет' not in card_info_list:
             return f"{card_type} {numb_type[:4] + " " + numb_type[4:6] + "**" + " **** " + numb_type[-4:]}"
 
-print(mask_account_card("Счет 35383033474447895560"))
-print(mask_account_card("Visa Platinum 8990922113665229"))
+
 
 
 def get_date(date_str: str) -> str:
@@ -34,4 +33,4 @@ def get_date(date_str: str) -> str:
     date_list_reverse = ".".join(date_list[::-1])
     return date_list_reverse
 
-print(get_date("2024-03-11T02:26:18.671407"))
+

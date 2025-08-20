@@ -8,7 +8,7 @@ def read_csv_file(file_path):
         reader = csv.DictReader(file, delimiter=";")
         for row in reader:
             list_csv.append(row)
-    print(list_csv)
 
 
-read_csv_file("data/transactions.csv")
+
+# read_csv_file("data/transactions.csv")

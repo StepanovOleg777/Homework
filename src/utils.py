@@ -31,4 +31,3 @@ def input_transaction(input_list):
         return []
 
 
-print(input_transaction("data/operations.json"))
