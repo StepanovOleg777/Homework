@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 def mask_account_card(card_info: str) -> str:
     """Функция принимает информацию о карте и маскирует ее номер или счет"""
     card_type_list = []
@@ -24,10 +27,12 @@ def mask_account_card(card_info: str) -> str:
             return f"{card_type} {numb_type[:4] + " " + numb_type[4:6] + "**" + " **** " + numb_type[-4:]}"
 
 
-
-
 def get_date(date_str: str) -> str:
     """Функция реформатирует дату"""
+    # Преобразуем в строку, если это не строка
+    if not isinstance(date_str, str):
+        date_str = str(date_str)
+
     date_list = date_str.split("-", 2)
     date_list[2] = date_list[2][:2]
     date_list_reverse = ".".join(date_list[::-1])

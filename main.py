@@ -3,8 +3,7 @@ from src.reading_csv import read_csv_file
 from src.reading_excel import read_excel_file
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
-
-
+from src.generators import filter_by_currency
 
 
 def main():
@@ -18,19 +17,19 @@ def main():
         choice = input()
 
         if choice == "1":
-             data = input_transaction('data/operations.json')
-             print("Для обработки выбран JSON-файл.")
-             break
+            data = input_transaction("data/operations.json")
+            print("Для обработки выбран JSON-файл.")
+            break
         elif choice == "2":
-             data = read_csv_file("data/transactions.csv")
-             print("Для обработки выбран CSV-файл.")
-             break
+            data = read_csv_file("data/transactions.csv")
+            print("Для обработки выбран CSV-файл.")
+            break
         elif choice == "3":
-             data = read_excel_file("data/transactions_excel.xlsx")
-             print("Для обработки выбран XLSX-файл.")
-             break
+            data = read_excel_file("data/transactions_excel.xlsx")
+            print("Для обработки выбран XLSX-файл.")
+            break
         else:
-             print("Неправильное значение.Попробуйте еще раз.")
+            print("Неправильное значение.Попробуйте еще раз.")
 
     available_statuses = ["EXECUTED", "CANCELED", "PENDING"]
 
@@ -41,42 +40,57 @@ def main():
         choice = input("").strip().upper()
 
         if choice in available_statuses:
-            if choice == 'EXECUTED':
-                filtered = filter_by_state(data, 'EXECUTED')
+            if choice == "EXECUTED":
+                filtered = filter_by_state(data, "EXECUTED")
             elif choice == "CANCELED":
                 filtered = filter_by_state(data, "CANCELED")
             else:
                 filtered = filter_by_state(data, "PENDING")
-            print(f"Операции отфильтрованы по статусу \"{choice}\"")
+            print(f'Операции отфильтрованы по статусу "{choice}"')
             break
         else:
-            print(f"Статус операции \"{choice}\" недоступен.")
+            print(f'Статус операции "{choice}" недоступен.')
 
     while True:
-        print(f'Отсортировать операции по дате?')
-        choice = input('Да/Нет').strip().upper()
-        if choice == 'ДА':
-            print(f'Отсортировать по возрастанию или по убыванию?')
-            choice = input('По возрастанию /По убыванию').strip().upper()
-            if choice == 'ПО ВОЗРАСТАНИЮ':
-                filtered = sort_by_date(filtered,  rev = False)
+        print(f"Отсортировать операции по дате? Да/Нет")
+        choice = input().strip().upper()
+        if choice == "ДА":
+            print(f"Отсортировать по возрастанию или по убыванию?")
+            print("По возрастанию /По убыванию")
+            choice = input().strip().upper()
+            if choice == "ПО ВОЗРАСТАНИЮ":
+                filtered = sort_by_date(filtered, rev=False)
                 break
-            elif choice == 'ПО УБЫВАНИЮ':
+            elif choice == "ПО УБЫВАНИЮ":
                 filtered = sort_by_date(filtered, rev=True)
                 break
             else:
-                print('Повторите попытку')
-        elif choice == 'НЕТ':
+                print("Повторите попытку")
+        elif choice == "НЕТ":
             break
         else:
-            print('Повторите попытку')
+            print("Повторите попытку")
 
-    #While True
-    #Выводить только рублевые транзакции? Да/Нет
+    while True:
+        print(f"Выводить только рублевые транзакции? Да/Нет")
+        choice = input().strip().upper()
+        if choice == "ДА":
+            filtered = filter_by_currency(filtered, "RUB")
+            break
+        elif choice == "НЕТ":
+            break
+        else:
+            print("Повторите попытку")
 
-    #While True
-    #Отфильтровать список транзакций по определенному слову в описании? Да/Нет
-
+    while True:
+        print(f"Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
+        choice = input().strip().upper()
+        if choice == "ДА":
+            break
+        elif choice == "НЕТ":
+            break
+        else:
+            print("Повторите попытку")
 
     list_of_final_transactions = []
     for transaction in filtered:
@@ -87,7 +101,6 @@ def main():
             timestamp = transaction.get("date", {})
             formatted_date = timestamp.strftime("%Y-%m-%d")
             date = get_date(formatted_date)
-
         final_transactions.append(date)
         description = transaction.get("description", {})
         final_transactions.append(description)
@@ -106,23 +119,25 @@ def main():
             currency = transaction.get("operationAmount", {}).get("currency", {}).get("name", {})
             sum = "Сумма: " + str(transaction.get("operationAmount", {}).get("amount", {})) + " " + currency
             final_transactions.append(sum)
+
         else:
             currency = transaction.get("currency_name")
             sum = "Сумма: " + str(transaction.get("amount", {})) + " " + currency
             final_transactions.append(sum)
-            list_of_final_transactions.append("\n" + "\n".join(final_transactions))
-    print(
-        f"""
+        list_of_final_transactions.append("\n" + "\n".join(final_transactions))
+
+    if list_of_final_transactions != []:
+        print(
+            f"""
     Распечатываю итоговый список транзакций...
     Всего банковских операций в выборке: {len(filtered)}"""
-    )
+        )
+
+    elif list_of_final_transactions == []:
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
 
     print("\n".join(list_of_final_transactions))
 
 
-
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

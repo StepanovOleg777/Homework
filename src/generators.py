@@ -1,12 +1,15 @@
 from typing import Iterable
 
 
-def filter_by_currency(transactions: list, currency: str) -> Iterable:
-    """Функция принимает список словарей и возвращает список только с валютой USD"""
+def filter_by_currency(transactions: list, currency: str):
+    """Функция принимает список словарей и возвращает список только с валютой RUB"""
+
+    transaction = []
 
     for i in transactions:
         if i["operationAmount"]["currency"]["code"] == currency:
-            yield i
+            transaction.append(i)
+    return transaction
 
 
 transactions = [
@@ -57,10 +60,8 @@ transactions = [
     },
 ]
 
-usd_transactions = filter_by_currency(transactions, "USD")
 
-for transaction in usd_transactions:
-    print(transaction)
+
 
 
 def transaction_descriptions(transactions: list[dict]):
@@ -71,10 +72,10 @@ def transaction_descriptions(transactions: list[dict]):
         yield result_trans_descr
 
 
-gen = transaction_descriptions(transactions)
+    # gen = transaction_descriptions(transactions)
 
-print(next(gen))
-print(next(gen))
+
+
 
 def card_number_generator(start=1, stop=9999999999999999):
     """Функция генерирует номер карты"""
@@ -95,6 +96,6 @@ def card_number_generator(start=1, stop=9999999999999999):
             yield card_number_gen
 
 
-card_gen = card_number_generator(start=1, stop=6)
-for card_number in card_gen:
-    print(card_number)
+    card_gen = card_number_generator(start=1, stop=6)
+    for card_number in card_gen:
+        print(card_number)
